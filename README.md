@@ -60,7 +60,7 @@ MCBBS Loader 可以加载符合要求的模块到 MCBBS 中，正如同 Forge �
 
 ## 我想编写模块……
 
-阅读 [模块开发文档](dev.md) 来了解如何开发一个模块。
+阅读 [模块开发文档](./dev/README.md) 来了解如何开发一个模块。
 
 ## 我能修改 MCBBS Loader 吗？
 
