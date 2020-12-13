@@ -7,16 +7,14 @@
 2. 打开 MCBBS 模块管理器，在「安装新模块」的文本框中输入：
 
    ```javascript
-   // MCBBS-Module
-   // @id test.helloworld
-   // -MCBBS-Module
+   /* MCBBS Module
+   id=com.example.example
+   */
    ```
 
    这里我们只填写了 ID 数据值，因为只有它是必需的。
 
-   请注意空格，每一行在 `//` 后都有一个空格。
-
-3. 在 `// -MCBBS-Module` 以下的部分就是代码，将被嵌入页面执行。
+3. 在 `*/` 以下的部分就是代码，将被嵌入页面执行。
 
    我们在后面追加：
 
@@ -27,9 +25,9 @@
    现在整体代码看起来像这样：
 
    ```javascript
-   // MCBBS-Module
-   // @id test.helloworld
-   // -MCBBS-Module
+   /* MCBBS Module
+   id=com.example.example
+   */
    alert("Hello World!");
    ```
 
