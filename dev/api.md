@@ -2,9 +2,11 @@
 
 MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用。
 
-若无特别说明，所有代码均为 TypeScript 函数原型。
+除此之外，MCBBS也提供了一系列的API可供调用。但是Loader并不保证这些API被加载。
 
-`MCBBS`变量是一个插入在模块头部声明的局部变量，不同的模块所持有的`MCBBS`对象不同，其结构如下：  
+使用错误的参数类型调用API可能会抛出Error，但不能保证。<span style="color: brown">[ 洞穴夜莺分支独有特性 ]</span>
+
+`MCBBS`变量是一个插入在模块头部声明的局部变量，不同的模块所持有的`MCBBS`对象不同，对象在模块开始执行之前冻结，其结构如下：  
 - `MCBBS`
   - `$(selector, context)`  
     jQuery实例  
@@ -15,13 +17,14 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
   - `constructor(id)`  
     MCBBSAPI类  
     - id - 命名空间  
-  - `createConfig(stgid, name, type, desc)`  
+  - `createConfig(stgid, name, type, desc, check)`  
     创建配置项  
     - stgid - 一个存储id  
     - name - 在设置页面显示的名字  
-    - type - 类型，可以为`'checkbox'`代表复选框，或者任何其他内容代表文本框  
+    - type - 类型，可以为`'checkbox'`代表复选框，`'texteara'`代表可换行的文本框、或者任何其他内容代表不可换行的文本框  
     - desc - 描述，在设置界面的描述  
-    - 无返回值
+    - check - 检查函数，在用户输入时调用，用于验证输入的内容是否正确，接受一个用户输入的内容作为value参数（布尔或者字符串类型），返回一个HTML字符串将视为用户输入不合法，并将在配置页面进行提示，返回undefined则将视为用户输入合法，不予提示  
+    - 无返回值  
   - `download(url, name)`  
     不经过用户确认下载文件  
     - url - 欲下载的地址  
@@ -30,8 +33,8 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
   - `eval(script)`  
     以GM权限执行脚本  
     需要`loader:core`权限才能访问  
-    - script - 欲运行的表达式
-    - 返回一个Promise代表运行结果
+    - script - 欲运行的表达式  
+    - 返回一个Promise代表运行结果（是否抛出了Error）  
   - `export_(idIn, obj)`  
     导出一个对象  
     - idIn - 导出id  
@@ -39,49 +42,71 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
     - 无返回值  
   - `getAPIVersion()`  
     获取API版本  
-    - 返回当前版本的数值
+    - 返回当前版本的数值  
   - `getConfigVal(idIn[, dval])`  
     获取配置选项的值  
     - idIn - 存储id  
     - dval - 默认值  
     - 返回当前配置选项的值，若没有则默认值  
   - `getData(k[, dv])`  
-    获取存储的内容
-    - k - 存储id
+    获取存储的内容  
+    - k - 存储id  
     - dv - 默认值  
     - 返回当前存储的值，若没有则默认值  
+  - `mountJS`  
+    加入一个&lt;script&gt;标签
+    - src - 标签的src属性
+    - 无返回值
   - `id`  
     当前API的命名空间，和权限检查有关  
   - `import_(id, callback)`  
     异步导入一个内容
     - id - 导入内容的id  
     - callback - 回调函数，接受一个导入的对象  
+    - 返回指定id的模块是否已被安装  
+    <span style="color: brown">**情况有变：在洞穴夜莺的分支上返回的是模块是否能够运行（即已安装且依赖关系满足），如无意外这个更改将于不久后合并**</span>
+  - `popInfo(msg)`  
+    在底部显示消息  
+    - msg - 要显示的消息
     - 无返回值
-  - `popStatus(icon, msg[, doSpark, style, move, time, size])`  
-    在底部弹出文本  
-    - icon - 图标名称  
-    - msg - 要显示的文本  
-    - doSpark - 是否会闪烁  
-    - style - 样式属性  
-    - move - 动画时间  
-    - time - 闪烁时间间隔  
-    - size - 字体大小
+  - `storeData(k, v)`  
+    保存数据  
+    - k - 键  
+    - v - 值  
     - 无返回值  
-  - `storeDate(k, v)`  
-    保存数据
-    - k - 键
-    - v - 值
-    - 无返回值
   - `sysNotification(text[, title, image, onclick])`  
-    发送操作系统通知，此API无法设置通知的有效期，通知上的按钮等高级属性
+    发送操作系统通知
     - text - 通知文本内容  
     - title - 通知标题，默认MCBBS Loader  
     - image - 通知图像链接，默认无图  
     - onclick - 用户点击通知时的回调  
     - 无返回值  
+  - `isModRunning(id)`  
+    检查指定id的模块是否已经安装  
+    - id - 模块id  
+    - 返回模块是否已经安装  
+    <span style="color: brown">**情况有变：在洞穴夜莺的分支上返回的是模块是否能够运行（即已安装且依赖关系满足），如无意外这个更改将于不久后合并**</span>
   - `GM`  
     一个含有各个GM函数的对象  
-    需要`loader:gm_function`权限才能访问  
+    需要`loader:core`权限才能访问  
+  - `LoaderEvent` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+    用于Loader支持的事件的类  
+    - `emit(name[, object])`  
+      发布一个不可取消的事件  
+      - name - 事件名称  
+      - object - 事件属性，此对象的全部属性会被复制到事件对象中  
+      - 无返回值  
+    - `emitCancalable(name[, object])`  
+      发布一个可取消的事件  
+      - name - 事件名称  
+      - object - 事件属性，此对象的全部属性会被复制到事件对象中  
+      - 返回事件是否被取消  
+  - `crossOriginRequest(details)` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+    用于发起一次跨源请求  
+    目前只有 mcbbs.net、github.com、gitee.com 是白名单  
+    其他域名的请求会弹出TamperMonkey的跨源请求确认窗口  
+    用法和GM_xmlhttpRequest相同，[参考TM文档](https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest)  
+
 
 请注意所有存储的内容都**不会**在模块移除时自动删除!
 

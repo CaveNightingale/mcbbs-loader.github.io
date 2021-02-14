@@ -1,3 +1,5 @@
+# WL-1 欢迎使用
+
 <div style='text-align:center;'><strong><span style='font-size:32px;color:#df307f;'>MCBBS Loader 是 MCBBS 模块加载器</span></strong></div>
 
 <br/>
@@ -6,13 +8,15 @@
 
 ---
 
+Git 仓库：
+
 <i class="fa fa-code"></i> https://github.com/MCBBS-Loader/MCBBS-Loader-Core/
 
 ## 快速安装
 
-<div class="alert alert-info"><i class="fa fa-info-circle"></i> 下面的三个快速安装选项需要先 <a href='https://www.tampermonkey.net' target='_blank' class='alert-link'>安装 TamperMonkey</a> </div>
+<div class="alert alert-info"><i class="fa fa-info-circle"></i> 下面的安装选项需要先 <a href='https://www.tampermonkey.net' target='_blank' class='alert-link'>安装 TamperMonkey</a> </div>
 
-<div><span font-size='1.8rem'><a  style='color:#ffffff' class='btn btn-primary' href="https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-Loader-Core@stable/dist/stable.bundle.prod.user.js" target='_blank'><i class="fa fa-download"></i> 下载稳定版</a></span>&nbsp;来获取经过测试的稳定更新。<br/><br/><a style='color:#ffffff' class='btn btn-success' href='https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-Loader-Core@dev/dist/dev.bundle.prod.user.js' target='_blank'><i class="fa fa-wrench"></i> 下载开发版</a>&nbsp;来获取速度与稳定折中的更新。<br/><br/><a style='color:#ffffff' class='btn btn-dark' href='https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-Loader-Core@main/dist/nightly.bundle.prod.user.js' target='_blank'><i class="fa fa-bug"></i> 下载同步版</a>&nbsp;来和我们的仓库保持完全同步。<strong>小心 Bug！</strong></div>
+<div><a style='color:#ffffff' class='btn btn-primary' href='https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-Loader-Core@main/dist/nightly.bundle.prod.user.js' target='_blank'><i class="fa fa-download"></i> 立即安装</a>&nbsp; 仓库实时更新。</div>
 
 ---
 
@@ -28,39 +32,44 @@ MCBBS Loader 可以加载符合要求的模块到 MCBBS 中，正如同 Forge �
 
    <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> TamperMonkey <b>不是自由软件</b>，它甚至<b>没有开放源代码</b>！如果你对专有软件深恶痛绝，请考虑帮我们移植相关代码以在自由的脚本管理器上运行。</div>
 
-2. 安装了 TamperMonkey 后，刷新本页，单击上方「快速安装」中的任意一个选项：
+2. 安装了 TamperMonkey 后，刷新本页，单击上方的「立即安装」按钮：
 
-   - 稳定版（Stable）：这个分支的**每个**更新在发布之前都经过测试，拥有最少的漏洞。
-   - 开发版（Dev）：这个分支的大多数更新**应当**是较稳定的，它的更新速度更快。
-   - 同步版（Nightly）：这个分支更新速度最快，它几乎随着**每次**提交**都会**发布一个更新，也正因为如此，它不太稳定，Bug 随时都可能出现。
-
+   - 该脚本会随着我们的每次构建而更新，所有的构建在提交前都经过测试。
+   
 3. 打开 MCBBS，将鼠标移至右上角你的头像上，如果看到「MCBBS 模块管理」字样，那么恭喜，MCBBS Loader 已经部署在你的浏览器上！
 
    <div class="alert alert-info"><i class="fa fa-info-circle"></i> MCBBS Loader 的加载需要时间，请耐心等待。</div>
 
 ---
 
-## 我如何安装模块？
+## 使用方法
 
-你可以在 MCBBS 或 GitHub 上找到一些模块。在我们的[账号](https://github.com/MCBBS-Loader/)中也有很多模块。
+当你安装了 MCBBS Loader 后，单击用户菜单中的「MCBBS 模块管理」即可进入管理界面。
 
-模块的发布者一般会提供给你以下三条信息之一：
+![open](https://i.loli.net/2021/01/01/5jES8pGtH3BWTkC.png)
 
-- 模块的网络资源 URL（常见于需要长期更新的模块）
-- 模块的 BASE64 编码（不常用）
-- 模块的 JavaScript 源代码（常用于不需要更新或一次性的模块）
+在模块管理界面的下方，你可以使用「预览软件源」的方法来探索模块，也可以通过使用别人提供给你的 ID 进行安装。
 
-1. 打开「MCBBS 模块管理」：
+![Manager](https://i.loli.net/2021/01/01/3IVpHd2JF7tsr9C.png)
 
-   ![Manager](https://i.loli.net/2020/11/14/GfwhDYbAlQ7r4Fv.png)
+<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> 这些软件源仍在开发中，你预览到的可能仍旧是空列表。</div>
 
-2. 粘贴 URL，BASE64 或 JavaScript 代码到「安装新模块」文本框中，单击「安装」按钮，模块即被安装在加载器中。
+- **调试模式** 允许你使用源代码安装模块，这通常在你开发模块需要测试而又不想遇到 MCBBS Loader 的自动更新特性时非常有用。
+- **查看源代码** 允许你查看某个模块的源代码并修改它。
+- **启用/禁用** 可以控制模块的启停。
+- **删除模块** 可以移除模块。**注意，没有二次确认！**
 
-   <div class="alert alert-info"><i class="fa fa-info-circle"></i> 在有些系统上，安装成功时系统会弹出一条通知提醒你。</div>
+有些模块提供了**模块配置**，你可以在管理界面进行配置。
+
+![Menu](https://i.loli.net/2021/01/01/fiJyRISgCbVp9nq.png)
+
+![Conf](https://i.loli.net/2021/01/01/9wuhDQkotylqPKX.png)
 
 ## 我想编写模块……
 
-阅读 [模块开发文档](./dev/README.md) 来了解如何开发一个模块。
+所有用户都应该具备编写模块的能力！
+
+阅读 [TR-1 世界真的在那里吗？](./new/TR-1.md) 来了解如何开发一个模块。
 
 ## 我能修改 MCBBS Loader 吗？
 
@@ -78,4 +87,5 @@ MCBBS Loader 可以加载符合要求的模块到 MCBBS 中，正如同 Forge �
 
 ## 开发人员
 
-- [RarityEG](https://www.mcbbs.net/home.php?mod=space&uid=3281025)：加载器、API、文档
+- [RarityEG](https://www.mcbbs.net/home.php?mod=space&uid=3281025)：加载器骨架、API 编写、文档编写、加载实现
+- [洞穴夜莺](https://www.mcbbs.net/home.php?mod=space&uid=2853776)：样式美化、API 编写、依赖功能实现、文档编写
