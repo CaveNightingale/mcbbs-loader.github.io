@@ -27,7 +27,7 @@
 - DiscuzAjaxGetFinished  
 
 Loader支持的事件如下：
-- `DiscuzAjaxPrePost` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `DiscuzAjaxPrePost`
   在使用ajaxpost发出请求之前触发  
   - `callback(event)` 「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例  
@@ -37,7 +37,7 @@ Loader支持的事件如下：
 	  - `showidclass`  
 	  - `submitbtn`  
 	  - `recall`  
-- `DiscuzAjaxPostPost` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `DiscuzAjaxPostPost` 
   在使用ajaxpost请求完成时触发  
   - `callback(event)`   
     - `event` - 一个MCBBS.LoaderEvent实例  
@@ -47,7 +47,7 @@ Loader支持的事件如下：
 	  - `showidclass`  
 	  - `submitbtn`  
 	  - `recall`  
-- `DiscuzAjaxPreGet` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `DiscuzAjaxPreGet`
   在使用ajaxget发出请求之前触发  
   - `callback(event)`「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例  
@@ -57,7 +57,7 @@ Loader支持的事件如下：
 	  - `loading`  
 	  - `display`  
 	  - `recall`  
-- `DiscuzAjaxPostGet` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `DiscuzAjaxPostGet` 
   在使用ajaxget请求完成时触发  
   - `callback(event)`  
     - `event` - 一个MCBBS.LoaderEvent实例  
@@ -67,13 +67,13 @@ Loader支持的事件如下：
 	  - `loading`  
 	  - `display`  
 	  - `recall`  
-- `ToggleThreadPreview` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `ToggleThreadPreview` 
   用户点击\[预览\]键时触发  
   - `callback(event)`「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例  
 	  - `tid`  
 	  - `tbody`  
-- `WindowPreLoad` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `WindowPreLoad`
   打开ajax对话窗口之前触发  
   - `callback(event)`「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例  
@@ -82,23 +82,23 @@ Loader支持的事件如下：
 	  - `method`  
 	  - `cache`  
 	  - `menuv`  
-- `MenuPreShow` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `MenuPreShow` 
   打开对话窗前触发，包括但不限于评分、确认窗口等  
   - `callback(event)`「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例    
 	  - `detail`
-- `MenuPostShow` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `MenuPostShow` 
   打开对话窗后触发，包括但不限于评分、确认窗口等  
   - `callback(event)`  
     - `event` - 一个MCBBS.LoaderEvent实例    
 	  - `detail`  
-- `MenuPreHide` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `MenuPreHide`  
   关闭对话窗口前触发  
   - `callback(event)`「可取消」  
     - `event` - 一个MCBBS.LoaderEvent实例  
 	  - `attr`  
       - `mtype`  
-- `MenuPostHide` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+- `MenuPostHide`  
   关闭对话窗口后触发  
   - `callback(event)`  
     - `event` - 一个MCBBS.LoaderEvent实例  

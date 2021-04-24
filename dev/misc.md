@@ -9,9 +9,13 @@
 cavenightingale.mcbbs.modules.noeee
 ```
 ## ML Global ID 全局ID
-全局ID（下称GID）代表了一个模块的下载地址。GID的格式如下
+全局ID（下称GID）代表了一个文件的下载地址。GID的格式如下
 
-对于Github上的文件，其中`<文件名>`不需要写`.js`
+其中`<文件名>`不需要写文件后缀，会根据所需的文件类型确定后缀
+```
+<github/gitee>:<用户名>:<仓库名>:<文件名>:<分支名>
+```
+github可省略不写
 ```
 <用户名>:<仓库名>:<文件名>:<分支名>
 ```
@@ -27,11 +31,13 @@ cavenightingale.mcbbs.modules.noeee
 ```
 <仓库名>
 ```
-需要注意用户[gitee](https://github.com/gitee)没有任何仓库，因此我们将gitee:保留备用定位Gitee上的文件。
+以上的每个&lt;...&gt;都可以用~表示和当前文件相同，称为相对GID。例如当前模块仓库下的dep.js可以用如下表示
+```
+~:~:~:dep:~
+```
 
-<span style="color: brown">**情况有变：洞穴夜莺源上对Gitee文件定位的实验性支持：在主分支的GID前面加上`gitee:`即为对应的Gitee文件GID**</span>
-
-目前GID可以用于代替`updateURL`中的链接以及`depend`指定依赖下载地址。将来可能有更多用途。
+目前GID可以用于代替`updateURL`中的链接以及`depend`指定依赖下载地址。也可以用于加载JS和CSS<sup>[2]</sup>。
 
 ---
-1) 由于即将到来的关于GID指定依赖项支持的回退，撤回旧版文档中关于使用文件名命名代替包名命名的建议。
+1) 撤回旧版文档中关于使用文件名命名代替包名命名的建议。
+2) 参考api章节
