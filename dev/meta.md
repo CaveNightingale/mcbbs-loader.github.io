@@ -56,8 +56,6 @@ description=一个<b>加粗</b>的模块。
 
 版本号，更新时使用，只能使用**数字**和**点**表示。
 
-只有版本号没有用，它需要和 `updateURL` 一起使用。
-
 示例：
 
 ```properties
@@ -69,6 +67,8 @@ version=233.344.455.566.677
 ## updateURL
 
 更新 URL，每次脚本加载时会检查一次更新，该 URL 应该指向新的脚本的位置。你可以每次固定将脚本发布到同一个位置。
+
+现在不需要这个元数据了，因为loader会从gid检索更新。
 
 示例：
 
@@ -82,7 +82,9 @@ updateURL=https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-RunJS@main/main.js
 
 检查依赖关系，可以指定多个依赖项，中间用英文逗号分割，如果依赖项未安装或者未启用，则只能保证与依赖关系无关的模块加载。
 
-指定依赖项的时候，可以使用模块的ID或者GID，使用GID时，安装时会自动安装依赖模块。
+指定依赖项的时候，使用模块的ID。当有gid时，可以自动补全依赖的脚本。
+
+格式为 &lt;id&gt; [-&gt; &lt;gid&gt;]
 
 <span style="color: brown">**情况有变：我们强烈建议不要使用GID指定依赖项，因为关于GID的支持由于严重缺陷在洞穴夜莺的分支上被回退，这个操作不久后将被合并入主分支，目前洞穴夜莺分支使用`<依赖项>[ -> <下载地址/GID>]`的方式指定依赖。**</span>
 
@@ -97,7 +99,11 @@ updateURL=https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-RunJS@main/main.js
 ## permissions
 
 特殊权限列表
-目前只有loader:core被支持，它用于加载需要高权限的脚本。将来会有更多权限支持。
+loader:core用于加载需要高权限的脚本。
+loader:earlyload用于需要在加载早期运行的脚本。
+
+## gid
+当脚本不是用gid安装时的备用gid
 
 目前只有这些元信息被识别，未来可能会有更多的信息。
 

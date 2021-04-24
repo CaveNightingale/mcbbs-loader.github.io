@@ -4,9 +4,9 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
 
 除此之外，MCBBS也提供了一系列的API可供调用。但是Loader并不保证这些API被加载。
 
-使用错误的参数类型调用API可能会抛出Error，但不能保证。<span style="color: brown">[ 洞穴夜莺分支独有特性 ]</span>
+使用错误的参数类型调用API可能会抛出Error，但不能保证。
 
-`MCBBS`变量是一个插入在模块头部声明的局部变量，不同的模块所持有的`MCBBS`对象不同，对象在模块开始执行之前冻结，其结构如下：  
+`MCBBS`变量是一个插入在模块头部声明的局部变量，不同的模块所持有的`MCBBS`对象不同，具有loader:earlyload权限的模块在第一次执行时`MCBBS`等于`null`，对象在模块开始执行之前冻结，其结构如下：  
 - `MCBBS`
   - `$(selector, context)`  
     jQuery实例  
@@ -21,9 +21,10 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
     创建配置项  
     - stgid - 一个存储id  
     - name - 在设置页面显示的名字  
-    - type - 类型，可以为`'checkbox'`代表复选框，`'texteara'`代表可换行的文本框、或者任何其他内容代表不可换行的文本框  
+    - type - 类型，可以为`'checkbox'`代表复选框，`'texteara'`代表可换行的文本框、`'button'`代表按钮、或者任何其他内容代表不可换行的文本框  
     - desc - 描述，在设置界面的描述  
-    - check - 检查函数，在用户输入时调用，用于验证输入的内容是否正确，接受一个用户输入的内容作为value参数（布尔或者字符串类型），返回一个HTML字符串将视为用户输入不合法，并将在配置页面进行提示，返回undefined则将视为用户输入合法，不予提示  
+    - check - 检查函数，在用户输入时调用，用于验证输入的内容是否正确，接受一个用户输入的内容作为value参数（布尔或者字符串类型），返回一个HTML字符串将视为用户输入不合法，并将在配置页面进行提示，返回undefined则将视为用户输入合法，不予提示，特殊地，这个方法在每次`'button'`类型的选项被点击时调用  
+    - value - 目前仅`'button'`类型的选项使用，按钮上的文字  
     - 无返回值  
   - `download(url, name)`  
     不经过用户确认下载文件  
@@ -55,7 +56,15 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
     - 返回当前存储的值，若没有则默认值  
   - `mountJS`  
     加入一个&lt;script&gt;标签
-    - src - 标签的src属性
+    - src - script内容的文件地址（GID或URL）
+    - onerror - 出现网络错误时的回调  
+    - onsucceed - 加载成功时的回调  
+    - 无返回值
+  - `mountCSS`  
+    加入一个&lt;style&gt;标签
+    - src - style内容的文件地址（GID或URL） 
+    - onerror - 出现网络错误时的回调  
+    - onsucceed - 加载成功时的回调  
     - 无返回值
   - `id`  
     当前API的命名空间，和权限检查有关  
@@ -63,8 +72,7 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
     异步导入一个内容
     - id - 导入内容的id  
     - callback - 回调函数，接受一个导入的对象  
-    - 返回指定id的模块是否已被安装  
-    <span style="color: brown">**情况有变：在洞穴夜莺的分支上返回的是模块是否能够运行（即已安装且依赖关系满足），如无意外这个更改将于不久后合并**</span>
+    - 返回模块是否能够运行（即已安装且依赖关系满足）  
   - `popInfo(msg)`  
     在底部显示消息  
     - msg - 要显示的消息
@@ -84,12 +92,11 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
   - `isModRunning(id)`  
     检查指定id的模块是否已经安装  
     - id - 模块id  
-    - 返回模块是否已经安装  
-    <span style="color: brown">**情况有变：在洞穴夜莺的分支上返回的是模块是否能够运行（即已安装且依赖关系满足），如无意外这个更改将于不久后合并**</span>
+    - 返回模块是否能够运行（即已安装且依赖关系满足） 
   - `GM`  
     一个含有各个GM函数的对象  
     需要`loader:core`权限才能访问  
-  - `LoaderEvent` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+  - `LoaderEvent`  
     用于Loader支持的事件的类  
     - `emit(name[, object])`  
       发布一个不可取消的事件  
@@ -101,12 +108,42 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
       - name - 事件名称  
       - object - 事件属性，此对象的全部属性会被复制到事件对象中  
       - 返回事件是否被取消  
-  - `crossOriginRequest(details)` <span style="color: brown">**[ 洞穴夜莺分支独有特性 ]**</span>  
+  - `crossOriginRequest(details)`  
     用于发起一次跨源请求  
     目前只有 mcbbs.net、github.com、gitee.com 是白名单  
     其他域名的请求会弹出TamperMonkey的跨源请求确认窗口  
     用法和GM_xmlhttpRequest相同，[参考TM文档](https://www.tampermonkey.net/documentation.php?ext=dhdg#GM_xmlhttpRequest)  
-
+  - `acquireCommon()`  
+    获取一个`Common`对象，用于少量被Loader封装过的来自MCBBS的common.js的API  
+    - 返回值是`Common`对象，其结构如下  
+      - loadExtra(script, callback)  
+        加载来自MCBBS的一个依赖脚本  
+        - script - 脚本名称，例如`'common_extra'`  
+        - callback - 回调  
+        - 无返回值
+      - showOfflineWindow(k, element[, menuv])  
+        用于打开一个窗口，不过简化了showWindow的一堆乱七八糟的参数
+        - k - 窗口类型  
+        - element - 窗口内部的HTML内容，可以是HTML元素对象也可以是字符串  
+        - menuv - 和论坛许多API的menuv一样  
+        - 无返回值  
+  - `GIDURL`  
+    一个类，用来表达GID  
+    - `fromString(string[, root])`  
+      从字符串反序列化GID  
+      - string - 字符串  
+      - root - 相对路径的当前路径  
+      - 返回GID，若字符串无效，返回`GIDURL.NIL`
+    - `NIL`  
+      表示空的GID
+    - `prototype`  
+      - `asString()`  
+        序列化为字符串  
+        - 返回代表GID绝对地址的字符串  
+      - `getAsURL(extname)`
+        获取对应的URL
+        - extname - 文件后缀，需要加`.`
+        - 返回GID代表的URL
 
 请注意所有存储的内容都**不会**在模块移除时自动删除!
 
