@@ -7,16 +7,29 @@ MCBBS Loader 自身具有如下基本 API，在你的脚本中可以直接调用
 使用错误的参数类型调用API可能会抛出Error，但不能保证。
 
 `MCBBS`变量是一个插入在模块头部声明的局部变量，不同的模块所持有的`MCBBS`对象不同，具有loader:earlyload权限的模块在第一次执行时`MCBBS`等于`null`，对象在模块开始执行之前冻结，其结构如下：  
+
 - `MCBBS`
-  - `$(selector, context)`  
-    jQuery实例  
+  
+  - `getUIVersion()` 获得 UI 版本，如果是旧模板就返回 2，否则返回 3。
+  - `page` 页面操作相关，需要 `mcbbs:machine-operate` 权限才能使用，否则将是 `{}`。其中所有 API 均为 V3 设计并且暂时不打算对 V2 提供支持，**请绝对不要在 V2 页面中使用这些 API，否则可能导致意想不到的后果！**
+    - `isPostPage()` 判断这个页面是不是一个帖子的浏览页面。
+    - `whoPosted()` 获取这个帖子的发表者。
+    - // TODO
+  
+  - `user` 用户操作相关，需要 `mcbbs:usercontrol` 权限才能使用，否则将是 `{}`。
+    - `getUserDisplayName()` 获取用户显示名称，如果没有找到将返回 `""`。
+    - `getUID()` 获取 UID，如果没有找到将返回 `""`。
+  
+  - `lodash`
+  
+    Lodash 支援库
+  
+  - `$`  
+    jQuery 实例  
   - `closeStatus(move)`  
     关闭底部提示  
     - move - 动画持续的时间  
     - 无返回值
-  - `constructor(id)`  
-    MCBBSAPI类  
-    - id - 命名空间  
   - `createConfig(stgid, name, type, desc, check)`  
     创建配置项  
     - stgid - 一个存储id  
