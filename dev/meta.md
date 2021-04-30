@@ -36,7 +36,7 @@ icon=data:image/png;base64,/9j/4AAQSk（后略）
 
 ## description
 
-一段简短的描述，可以使用 HTML。
+一段简短的描述，可以使用 HTML。<sup>[1]</sup>
 
 示例：
 
@@ -46,11 +46,11 @@ description=一个<b>加粗</b>的模块。
 
 ## name
 
-模块的名字，可以使用 HTML。
+模块的名字，可以使用 HTML。<sup>[1]</sup>
 
 ## author
 
-作者的名字，可以使用 HTML。
+作者的名字，可以使用 HTML。<sup>[1]</sup>
 
 ## version
 
@@ -80,17 +80,15 @@ updateURL=https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-RunJS@main/main.js
 
 ## depend
 
-检查依赖关系，可以指定多个依赖项，中间用英文逗号分割，如果依赖项未安装或者未启用，则只能保证与依赖关系无关的模块加载。
+检查依赖关系，可以指定多个依赖项，中间用英文逗号分割，如果依赖项未安装或者未启用，则部分模块不能加载。
 
 指定依赖项的时候，使用模块的ID。当有gid时，可以自动补全依赖的脚本。
 
-格式为 &lt;id&gt; [-&gt; &lt;gid&gt;]
-
-<span style="color: brown">**情况有变：我们强烈建议不要使用GID指定依赖项，因为关于GID的支持由于严重缺陷在洞穴夜莺的分支上被回退，这个操作不久后将被合并入主分支，目前洞穴夜莺分支使用`<依赖项>[ -> <下载地址/GID>]`的方式指定依赖。**</span>
+格式为 `<依赖项>[ -> <下载地址/GID>]`
 
 ## before
 
-拥有此属性的脚本会在所有指定的脚本之前运行，如果指定的脚本未安装将被**忽略**，如果没有任何符合要求的加载顺序解法，只能保证和问题模块完全无关的模块<sup>[1]</sup>能够加载。
+拥有此属性的脚本会在所有指定的脚本之前运行，如果指定的脚本未安装将被**忽略**，如果没有任何符合要求的加载顺序解法，只能保证部分模块<sup>[2]</sup>能够加载。
 
 ## after
 
@@ -100,7 +98,8 @@ updateURL=https://cdn.jsdelivr.net/gh/MCBBS-Loader/MCBBS-RunJS@main/main.js
 
 特殊权限列表
 loader:core用于加载需要高权限的脚本。
-loader:earlyload用于需要在加载早期运行的脚本。
+loader:earlyload用于需要在加载早期运行的脚本，比Extender的所有逻辑、MCBBS自身的脚本和LoaderCore的大部分逻辑都要早。
+loader:settop在所在的软件源中置顶，它在软件源构建阶段被处理完毕，在运行期间不会被解析。
 
 ## gid
 当脚本不是用gid安装时的备用gid
@@ -108,4 +107,5 @@ loader:earlyload用于需要在加载早期运行的脚本。
 目前只有这些元信息被识别，未来可能会有更多的信息。
 
 ---
-1) 与出问题的脚本没有直接或者间接的通过after、before、depend上的联系，有些模块即使与问题模块有关也能加载，但是不作保证。
+1) 禁止使用JavaScript、JavaApplet、Flash，LoaderCore会视情况移除这些可执行内容。
+2) 如果一个模块不能加载，则所有要求在这个模块加载后加载的模块都不能加载。

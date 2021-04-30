@@ -1,5 +1,6 @@
 - [欢迎](README.md)
 - [使用技巧](easytouse.md)
+- [兼容性](compatibility.md)
 
 - [新手上路](./new/README.md)
   - [TR-1 世界真的在那里吗？](./new/TR-1.md)
